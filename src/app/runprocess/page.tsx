@@ -17,7 +17,7 @@ const options = [
   },
   {
     value: 'DEMO_webapp_RPA',
-    label: 'DEMO_webapp_RPA',
+    label: 'following_sms',
   },
   {
     value: 'Selenium_flow',
@@ -36,11 +36,6 @@ const FormDisabledDemo: React.FC = () => {
   const handleChange = (value:string) => {
     setSelected(value);
   };
-  
-  const thisisflow = (value:string) => {
-    setSelected(value);
-    return value
-  }
 
   const [submitStatus, setsubmitStatus] = useState<string>('');
   const handleSubmit = () => {
@@ -82,9 +77,6 @@ const FormDisabledDemo: React.FC = () => {
         wrapperCol={{ span: 14 }}
         layout="horizontal"
       >
-        <Form.Item label="Who are you">
-          <Input />
-        </Form.Item>
         <Form.Item label="BPMN Process">
           <Select
             onChange={handleChange}
@@ -99,9 +91,6 @@ const FormDisabledDemo: React.FC = () => {
             options={options}
             value={selected}
           />
-        </Form.Item>
-        <Form.Item label="Line notification" valuePropName="checked">
-          <Switch/>
         </Form.Item>
         <Button onClick={handleSubmit}>Submit</Button>
         <p>Status : {submitStatus}</p>
