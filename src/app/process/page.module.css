@@ -1,0 +1,21 @@
+.realcontent{
+    margin: '24px 16px';
+    padding: 24;
+    min-height: calc(100vh - 64px);
+    background: colorBgContainer;
+}
+
+.flowdiagram{
+    min-height: calc(60vh - 64px);
+}
+
+.transaction{
+    min-height: calc(40vh - 64px);
+
+}
+
+.filter_button{
+    background-color: colorBgContainer;
+    border-color: rgb(96, 95, 95);
+    border-width: 1px;
+}

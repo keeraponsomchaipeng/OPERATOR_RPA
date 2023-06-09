@@ -1,0 +1,87 @@
+.bgmanagae{
+    display: flex;
+    align-items:start;
+    background-color: rgb(167, 179, 179);
+    height: calc(100vh - 64px);
+    margin:auto;
+}
+
+
+.divbg{
+    padding-left: 100px;
+    padding-right: 100px;
+    display: flex;
+    background-color: rgb(167, 179, 179);
+}
+.table{
+    border: 10px;
+    border-color: black;
+}
+
+.flexs_v_f{
+    display: flex;
+    background-color: aqua;
+    justify-content: flex-end;
+    width: 100vh;
+}
+
+.notflex{
+    width: 100vh;
+}
+
+.justflex{
+    display:flex;
+}
+/* page.module.css */
+
+.for_li_ui {
+    display: flex;
+    width: 50vh;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .gaugeBarContainer {
+    display: flex;
+    height: 10px;
+    margin: 2px;
+  }
+  
+  .successGaugeBar {
+    background-color: green;
+  }
+  
+  .failedGaugeBar {
+    background-color: red;
+  }
+  
+.for_li_ui {
+    display: flex;
+    width: 80vh;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: 4px solid #ccc;
+    margin-bottom: 10px;
+  }
+
+.totalflex{
+    display: flex;
+    justify-content: center;
+}
+.bgbarstat{
+    height: 200px;
+    background-color: rgb(34, 225, 69);
+    margin-top: 20px;
+    margin-bottom: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.barstat{
+    padding: 10px;
+    width: calc(200vh - 10);
+    background-color: rgb(8, 123, 123);
+}
+

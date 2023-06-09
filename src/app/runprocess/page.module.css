@@ -1,0 +1,7 @@
+.Upload{
+    padding: 70px;
+    max-width: 75vh;
+    min-width: 60vh;
+    background-color: rgb(103, 186, 186);
+    min-height: calc(100vh - 64px);
+}

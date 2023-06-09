@@ -1,0 +1,14 @@
+.realcontent{
+    margin: '24px 16px';
+    padding: 24;
+    min-height: calc(100vh - 64px);
+    background: colorBgContainer;
+}
+
+.flowdiagram{
+    min-height: calc(50vh - 64px);
+}
+
+.transaction{
+    min-height: calc(50vh);
+}
