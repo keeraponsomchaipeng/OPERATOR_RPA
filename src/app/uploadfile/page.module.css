@@ -7,3 +7,7 @@
 .button{
     margin : 10px
 }
+
+.select{
+    padding : calc(-50px);
+}

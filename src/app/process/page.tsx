@@ -13,6 +13,7 @@ import styles from './page.module.css'
 import Appz from './transaction';
 const { Header, Sider, Content } = Layout;
 
+
 const App: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
   const {
@@ -48,17 +49,6 @@ const App: React.FC = () => {
       </Sider>
       <Layout>
         <Content className={styles.realcontent}>
-          <div className={styles.flowdiagram}>
-          <div>
-          <Button
-            type="text"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={() => setCollapsed(!collapsed)}
-            className={styles.filter_button}
-          />
-          </div>
-          Flow-Diagram
-          </div>
           <div className={styles.transaction}>
             <Appz/>
           </div>

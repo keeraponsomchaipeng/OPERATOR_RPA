@@ -17,17 +17,22 @@
     "@types/react": "18.2.7",
     "@types/react-dom": "18.2.4",
     "axios": "^1.4.0",
+    "bpmn-js": "^13.2.0",
+    "bpmn-moddle": "^8.0.1",
     "cors": "^2.8.5",
     "eslint": "8.41.0",
     "eslint-config-next": "13.4.4",
     "next": "13.4.4",
-    "react": "18.2.0",
+    "puppeteer": "^20.5.0",
+    "react": "^18.2.0",
+    "react-bpmn": "^0.2.0",
     "react-countup": "^6.4.2",
-    "react-dom": "18.2.0",
+    "react-dom": "^18.2.0",
     "react-router-dom": "^6.11.2",
     "react-virtuoso": "^4.3.9",
     "react-window": "^1.8.9",
     "styled-components": "^5.3.11",
-    "typescript": "5.0.4"
+    "typescript": "5.0.4",
+    "xml-js": "^1.6.11"
   }
 }

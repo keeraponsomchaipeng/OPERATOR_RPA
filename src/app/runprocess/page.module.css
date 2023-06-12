@@ -1,7 +1,18 @@
+.fullscreenz{
+    height: calc(100vh - 64px);
+    display: flex;
+}
+
 .Upload{
     padding: 70px;
-    max-width: 75vh;
+    max-width: 65vh;
     min-width: 60vh;
     background-color: rgb(103, 186, 186);
     min-height: calc(100vh - 64px);
 }
+
+.bpmn {
+    height: 1000px;
+    width: 800px;
+  }
+  

@@ -1,8 +1,12 @@
-
+'use client'
 import React from 'react';
 import {  Radio, Space, Table, Tag  } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import axios from 'axios';
+import styles from './transaction.module.css'
+import Bpmn from '../process/BpmnViewer';
+
+
 
 interface DataType {
   key: number;
@@ -12,6 +16,7 @@ interface DataType {
   Current_Instance_Status:string;
   Starttime:string;
   Endtime:string;
+  xhtml:string;
 }
 
 const columns: ColumnsType<DataType> = [
@@ -68,8 +73,31 @@ axios.get(url)
   });
 
 
-const Appz: React.FC = () => (
-  <Table columns={columns} dataSource={data} pagination={{ pageSize: 50 }} scroll={{ y: 330 }} />
-);
+  const Appz: React.FC = () => {
 
-export default Appz;
+    const [xml, setXml] = React.useState<string>();
+    const [bpmnKey, setBpmnKey] = React.useState<number>(0); // Adding state to track key
+  
+    const handleClick = (Id:any, record:any) => {
+      const xmlz = Buffer.from(record.xhtml, 'base64').toString('utf-8');
+      setXml(xmlz);
+      setBpmnKey(prevKey => prevKey + 1); // Incrementing the key to force remount
+      console.log(Id);
+      console.log(record);
+    }
+  
+    return(
+    <div>
+    <div className={styles.flowdiagram}>
+    <Bpmn key={bpmnKey} xmlcurrent={xml}/> {/* Using key prop here */}
+    </div>
+    <Table columns={columns} dataSource={data} pagination={{ pageSize: 50 }} scroll={{ y: 330 }} onRow={
+      (record :any ) => ({
+        onClick: () => handleClick(record.id, record)
+      })
+    } />
+    </div>
+    )
+  };
+  
+  export default Appz;

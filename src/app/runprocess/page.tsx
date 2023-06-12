@@ -8,33 +8,44 @@ import {
 } from 'antd';
 import React, { useState } from 'react';
 import styles from './page.module.css';
+import axios, { AxiosResponse } from 'axios';
+import { x } from './bpmn';
+import Bpmn from '../process/BpmnViewer';
 
-
+ // Print the entire x object
 const options = [
   {
     value: 'CAMUNDA_CLOUD_RPA_TEST',
-    label: 'rap_shopat24',
+    label: 'CAMUNDA_CLOUD_RPA_TEST',
   },
   {
     value: 'DEMO_webapp_RPA',
-    label: 'following_sms',
+    label: 'DEMO_webapp_RPA',
   },
   {
     value: 'Selenium_flow',
-    label: 'Web_scraping',
+    label: 'Selenium_flow',
   },
   {
     value: 'advance_sharepoint',
-    label: 'Grade_calculations',
+    label: 'advance_sharepoint',
   },
 ];
 
+
+
+
 const FormDisabledDemo: React.FC = () => {
   const [selected, setSelected] = useState(options[0].value);
+  const [xml, setXml] = React.useState<string>();
+  const [bpmnKey, setBpmnKey] = React.useState<number>(0); // Adding state to track key
   
 
   const handleChange = (value:string) => {
     setSelected(value);
+    const xmlz = Buffer.from(x[value], 'base64').toString('utf-8');
+    setBpmnKey(prevKey => prevKey + 1);
+    setXml(xmlz)
   };
 
   const [submitStatus, setsubmitStatus] = useState<string>('');
@@ -70,7 +81,7 @@ const FormDisabledDemo: React.FC = () => {
   
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
+    <div className={styles.fullscreenz}>
       <Form
         className={styles.Upload}
         labelCol={{ span: 7 }}
@@ -95,9 +106,7 @@ const FormDisabledDemo: React.FC = () => {
         <Button onClick={handleSubmit}>Submit</Button>
         <p>Status : {submitStatus}</p>
       </Form>
-      <div >
-        Flowkub
-      </div>
+      <Bpmn className={styles.bpmn} key={bpmnKey} xmlcurrent={xml}/>
     </div>
   );
 };

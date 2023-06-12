@@ -1,14 +1,38 @@
 'use client'
 import React, { useState } from 'react';
 import { DownloadOutlined } from '@ant-design/icons';
-import { Button, Radio, Space, Divider } from 'antd';
+import { Button, Radio, Space, Divider, Form, Select } from 'antd';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import styles from './page.module.css'
 
+const options = [
+  {
+    value: 'CAMUNDA_CLOUD_RPA_TEST',
+    label: 'CAMUNDA_CLOUD_RPA_TEST',
+  },
+  {
+    value: 'DEMO_webapp_RPA',
+    label: 'DEMO_webapp_RPA',
+  },
+  {
+    value: 'Selenium_flow',
+    label: 'Selenium_flow',
+  },
+  {
+    value: 'advance_sharepoint',
+    label: 'advance_sharepoint',
+  },
+];
+
 const Uploadfile: React.FC = () => {
+  const [selected, setSelected] = useState(options[0].value);
   const [uploadStatus, setUploadStatus] = useState<string>('');
   const [size, setSize] = useState<SizeType>('large'); // default is 'middle'
   const [elapsedTime, setElapsedTime] = useState<number>(0);
+
+  const handleChange = (value:string) => {
+    setSelected(value);
+  };
 
   const startFlow = () => {
     console.log("Start Laew");
@@ -28,7 +52,7 @@ const Uploadfile: React.FC = () => {
       const startTime = performance.now();
       reader.onload = async (fileEvent) => {
         const fileContents = fileEvent.target?.result;
-        if (typeof fileContents === 'string' && file.name == "Data_yim.zip") {
+        if (typeof fileContents === 'string') {
           // Encode the file contents as base64
           const encodedData = btoa(fileContents);
           console.log('Encoded data:', encodedData);
@@ -36,6 +60,7 @@ const Uploadfile: React.FC = () => {
           // Create the request data
           const data = {
             encoded: encodedData,
+            to_flow: selected
           };
 
           // Set the upload status to 'Uploading'
@@ -90,7 +115,7 @@ const Uploadfile: React.FC = () => {
             // Handle error cases if needed
           }
         }else{
-          setUploadStatus('Upload file Wrong file please upload Data_yim.zip');
+          setUploadStatus('ERROR occurred while making upload');
           const uploadStatusElement = document.getElementById('upload-status');
           if (uploadStatusElement) {
             uploadStatusElement.style.color = 'red';
@@ -105,11 +130,34 @@ const Uploadfile: React.FC = () => {
 
   return (
     <div className={styles.upload}>
+      <Form.Item label="BPMN Process" >
+          <Select className={styles.select}
+            onChange={handleChange}
+            showSearch
+            style={{ width: 250 }}
+            placeholder="Search to Select"
+            optionFilterProp="children"
+            filterOption={(input, option) => (option?.label ?? '').includes(input)}
+            filterSort={(optionA, optionB) =>
+              (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+            }
+            options={options}
+            value={selected}
+          />
+        </Form.Item>
+    <div >
+      <Form
+        labelCol={{ span: 7 }}
+        wrapperCol={{ span: 14 }}
+        layout="horizontal"
+      >
+      </Form>
       <Button onClick={handleUpload} type="primary" shape="round" icon={<DownloadOutlined />} size={size} className={styles.button}>
         Uploadfile
       </Button>
       <p id="upload-status" className={styles.button}>Status: {uploadStatus}</p>
       <div>processtime = {elapsedTime}</div>
+    </div>
     </div>
   );
 };

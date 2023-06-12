@@ -5,9 +5,7 @@
     background: colorBgContainer;
 }
 
-.flowdiagram{
-    min-height: calc(60vh - 64px);
-}
+
 
 .transaction{
     min-height: calc(40vh - 64px);
