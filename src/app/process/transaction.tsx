@@ -1,8 +1,8 @@
 'use client'
 import React from 'react';
-import {  Radio, Space, Table, Tag  } from 'antd';
+import {  Popconfirm, Radio, Space, Table, Tag  } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import styles from './transaction.module.css'
 import Bpmn from '../process/BpmnViewer';
 
@@ -47,16 +47,42 @@ const columns: ColumnsType<DataType> = [
   {
     title: 'Action',
     key: 'action',
-    render: () => (
-      <Space size="middle">
-        <a>Restart </a>
+    render: (_, record) => (
+      <Popconfirm 
+        title = "Are you sure want to cancel ?" 
+        onConfirm={() => handleCancel(record)}>
         <a>Cancel</a>
-      </Space>
+      </Popconfirm>
     ),
   },
 ];
 
+const handleCancel = (value:any) => {
+  // Function implementation
+  console.log(value.ProcessInstanceKey , "Hello za");
 
+
+  interface Post {
+    Processinstance: number;
+  }
+
+  const postData: Post = {
+    Processinstance: value.ProcessInstanceKey,
+  };
+
+  interface DictionaryResponse {
+    [key: string]: string;
+  }
+  let x: DictionaryResponse = {};
+
+  axios.post('http://localhost:8000/cancel/', postData)
+    .then((response: AxiosResponse) => {
+      x = response.data;
+    })
+    .catch((error: Error) => {
+      console.log(error);
+    });
+};
 
 const url = 'http://localhost:8000/process/';
 
@@ -84,6 +110,7 @@ axios.get(url)
       setBpmnKey(prevKey => prevKey + 1); // Incrementing the key to force remount
       console.log(Id);
       console.log(record);
+      // alert(`Cell clicked! Id: ${Id}, BpmnProcessID: ${record.BpmnProcessID}`)
     }
   
     return(
@@ -91,11 +118,7 @@ axios.get(url)
     <div className={styles.flowdiagram}>
     <Bpmn key={bpmnKey} xmlcurrent={xml}/> {/* Using key prop here */}
     </div>
-    <Table columns={columns} dataSource={data} pagination={{ pageSize: 50 }} scroll={{ y: 330 }} onRow={
-      (record :any ) => ({
-        onClick: () => handleClick(record.id, record)
-      })
-    } />
+    <Table columns={columns} dataSource={data} pagination={{ pageSize: 50 }} scroll={{ y: 330 }} onRow={(record :any ) => ({onClick: () => handleClick(record.id, record)})} />
     </div>
     )
   };
