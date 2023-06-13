@@ -14,14 +14,6 @@ const options = [
     value: 'DEMO_webapp_RPA',
     label: 'DEMO_webapp_RPA',
   },
-  {
-    value: 'Selenium_flow',
-    label: 'Selenium_flow',
-  },
-  {
-    value: 'advance_sharepoint',
-    label: 'advance_sharepoint',
-  },
 ];
 
 const Uploadfile: React.FC = () => {
@@ -68,7 +60,7 @@ const Uploadfile: React.FC = () => {
 
           // Make the POST request
           try {
-            const response = await fetch('http://10.182.37.125:8001/decode', {
+            const response = await fetch('http://localhost:8001/decode', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -87,7 +79,7 @@ const Uploadfile: React.FC = () => {
               // Perform further actions if needed
             } else if (response.status === 404) {
               console.error('POST request failed');
-              setUploadStatus('Please start flow "following_sms" first');
+              setUploadStatus('Please start flow "DEMO_webapp_RPA" first');
               const uploadStatusElement = document.getElementById('upload-status');
               if (uploadStatusElement) {
                 uploadStatusElement.style.color = 'red';

@@ -58,7 +58,7 @@ const columns: ColumnsType<DataType> = [
 
 
 
-const url = 'http://10.182.37.125:8000/process/';
+const url = 'http://localhost:8000/process/';
 
 let data: DataType[]; // Define the data variable
 

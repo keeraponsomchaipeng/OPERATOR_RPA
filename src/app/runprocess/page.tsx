@@ -22,14 +22,6 @@ const options = [
     value: 'DEMO_webapp_RPA',
     label: 'DEMO_webapp_RPA',
   },
-  {
-    value: 'Selenium_flow',
-    label: 'Selenium_flow',
-  },
-  {
-    value: 'advance_sharepoint',
-    label: 'advance_sharepoint',
-  },
 ];
 
 
@@ -50,7 +42,7 @@ const FormDisabledDemo: React.FC = () => {
 
   const [submitStatus, setsubmitStatus] = useState<string>('');
   const handleSubmit = () => {
-    const url = 'http://10.182.37.125:8000/startflow';
+    const url = 'http://localhost:8000/startflow';
     const payload = { bpmnprocessID_pl: selected };
 
     

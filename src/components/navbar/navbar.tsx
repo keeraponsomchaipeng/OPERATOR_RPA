@@ -3,8 +3,7 @@ import Link from 'next/link';
 import React from 'react';
 import { Breadcrumb, Layout, Menu, theme,Button } from 'antd';
 import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
+  FileTextOutlined,
   UploadOutlined,
   PlayCircleOutlined,
   LineChartOutlined,
@@ -48,6 +47,11 @@ export default function Navbar()
               key: '4',
               icon: <UploadOutlined />,
               label: (<Link href="/uploadfile">Upload file</Link>),
+            },
+            {
+              key: '5',
+              icon: <FileTextOutlined />,
+              label: (<Link href="/doc">Document</Link>),
             },
           ]}
         />
