@@ -1,6 +1,6 @@
 'use client'
 import React from 'react';
-import {  Popconfirm, Radio, Space, Table, Tag  } from 'antd';
+import { Popconfirm, Radio, Space, Table, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import axios, { AxiosResponse } from 'axios';
 import styles from './transaction.module.css'
@@ -12,11 +12,11 @@ interface DataType {
   key: number;
   BpmnProcessID: string;
   ProcessInstanceKey: string; // ProcessInstanceKey has been changed to number
-  Current_Process_ID:string;
-  Current_Instance_Status:string;
-  Starttime:string;
-  Endtime:string;
-  xhtml:string;
+  Current_Process_ID: string;
+  Current_Instance_Status: string;
+  Starttime: string;
+  Endtime: string;
+  xhtml: string;
 }
 
 const columns: ColumnsType<DataType> = [
@@ -48,8 +48,8 @@ const columns: ColumnsType<DataType> = [
     title: 'Action',
     key: 'action',
     render: (_, record) => (
-      <Popconfirm 
-        title = "Are you sure want to cancel ?" 
+      <Popconfirm
+        title="Are you sure want to cancel ?"
         onConfirm={() => handleCancel(record)}>
         <a>Cancel</a>
       </Popconfirm>
@@ -57,9 +57,9 @@ const columns: ColumnsType<DataType> = [
   },
 ];
 
-const handleCancel = (value:any) => {
+const handleCancel = (value: any) => {
   // Function implementation
-  console.log(value.ProcessInstanceKey , "Hello za");
+  console.log(value.ProcessInstanceKey, "Hello za");
 
 
   interface Post {
@@ -84,43 +84,53 @@ const handleCancel = (value:any) => {
     });
 };
 
-const url = 'http://localhost:8000/process/';
-
-let data: DataType[]; // Define the data variable
-
-axios.get(url)
-  .then(response => {
-    const z = response.data;
-    data = z; // Assign the response data to the data variable
-    console.log(z);
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
 
 
-  const Appz: React.FC = () => {
 
-    const [xml, setXml] = React.useState<string>();
-    const [bpmnKey, setBpmnKey] = React.useState<number>(0); // Adding state to track key
+const Appz: React.FC = () => {
+  const [data, setData] = React.useState<DataType[]>([])
+  React.useEffect(() => {
   
-    const handleClick = (Id:any, record:any) => {
-      const xmlz = Buffer.from(record.xhtml, 'base64').toString('utf-8');
-      setXml(xmlz);
-      setBpmnKey(prevKey => prevKey + 1); // Incrementing the key to force remount
-      console.log(Id);
-      console.log(record);
-      // alert(`Cell clicked! Id: ${Id}, BpmnProcessID: ${record.BpmnProcessID}`)
-    }
-  
-    return(
+    const url = 'http://localhost:8000/process/';
+
+    // let data: DataType[]; // Define the data variable
+    
+    axios.get(url)
+      .then(response => {
+        const z = response.data;
+        const dataxhtml = response.data[0]?.xhtml
+        //data = z; // Assign the response data to the data variable
+        setData(response.data)
+        console.log(z);
+        console.log(dataxhtml)
+        const xmlz = Buffer.from(dataxhtml, 'base64').toString('utf-8');
+        setXml(xmlz)
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+      
+  }, [])
+  const [xml, setXml] = React.useState<string>();
+  const [bpmnKey, setBpmnKey] = React.useState<number>(0); // Adding state to track key
+
+  const handleClick = (Id: any, record: any) => {
+    const xmlz = Buffer.from(record.xhtml, 'base64').toString('utf-8');
+    setXml(xmlz);
+    setBpmnKey(prevKey => prevKey + 1); // Incrementing the key to force remount
+    console.log(Id);
+    console.log(record);
+    // alert(`Cell clicked! Id: ${Id}, BpmnProcessID: ${record.BpmnProcessID}`)
+  }
+
+  return (
     <div>
-    <div className={styles.flowdiagram}>
-    <Bpmn key={bpmnKey} xmlcurrent={xml}/> {/* Using key prop here */}
+      <div className={styles.flowdiagram}>
+        <Bpmn key={bpmnKey} xmlcurrent={xml} /> {/* Using key prop here */}
+      </div>
+      <Table columns={columns} dataSource={data} pagination={{ pageSize: 50 }} scroll={{ y: 330 }} onRow={(record: any) => ({ onClick: () => handleClick(record.id, record) })} />
     </div>
-    <Table columns={columns} dataSource={data} pagination={{ pageSize: 50 }} scroll={{ y: 330 }} onRow={(record :any ) => ({onClick: () => handleClick(record.id, record)})} />
-    </div>
-    )
-  };
-  
-  export default Appz;
+  )
+};
+
+export default Appz;
