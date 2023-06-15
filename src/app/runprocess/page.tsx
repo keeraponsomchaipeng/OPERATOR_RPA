@@ -37,6 +37,7 @@ const FormDisabledDemo: React.FC = () => {
   const [bpmnKey, setBpmnKey] = React.useState<number>(0); // Adding state to track key
   const [bpmnID, setdatabpmn] = React.useState<string>();
   const [submitStatus, setsubmitStatus] = useState<string>('');
+  const [checkactive, setcheckactive] = useState<string>('');
   const handleUpload = () => {
     const input = document.createElement('input');
 
@@ -151,6 +152,38 @@ const FormDisabledDemo: React.FC = () => {
     setdatabpmn(value)
   };
 
+  const checkactiveprocess = () => {
+    const url = 'http://localhost:8000/checkactiveprocess';
+    const payload = { bpmnprocessID_pl: selected };
+    setcheckactive('Start Request check active process');
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    })
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          setcheckactive('Request failed');
+          throw new Error('Request failed');
+        }
+      })
+      .then(data => {
+        if (data['List of Active ProcessInstanceKey'].length !== 0) {
+          const statusMessage = JSON.stringify(data);
+          setcheckactive(`${statusMessage}`);
+        } else {
+          setcheckactive('Have no flow are active.');
+        }    
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }
+
   const handleSubmit = () => {
     const url = 'http://localhost:8000/startflow';
     const payload = { bpmnprocessID_pl: selected };
@@ -211,6 +244,8 @@ const FormDisabledDemo: React.FC = () => {
         <Button onClick={handleSubmit}>Submit</Button>
         <p>Status : {submitStatus}</p>
         <div>{clasify_bpmn(bpmnID)}</div>
+        <Button onClick={checkactiveprocess}>CheckActiveProcess</Button>
+        <p>{checkactive}</p>
       </Form>
       <Bpmn className={styles.bpmn} key={bpmnKey} xmlcurrent={xml}/>
     </div>
