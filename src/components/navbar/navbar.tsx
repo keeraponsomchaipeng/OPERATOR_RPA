@@ -43,11 +43,11 @@ export default function Navbar()
               icon: <PlayCircleOutlined />,
               label: (<Link href="/runprocess">Run Process</Link>),
             },
-            {
-              key: '4',
-              icon: <UploadOutlined />,
-              label: (<Link href="/uploadfile">Upload file</Link>),
-            },
+            // {
+            //   key: '4',
+            //   icon: <UploadOutlined />,
+            //   label: (<Link href="/uploadfile">Upload file</Link>),
+            // },
             {
               key: '5',
               icon: <FileTextOutlined />,

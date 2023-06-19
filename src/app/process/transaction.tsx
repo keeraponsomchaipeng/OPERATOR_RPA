@@ -91,11 +91,14 @@ const Appz: React.FC = () => {
   const [data, setData] = React.useState<DataType[]>([])
   React.useEffect(() => {
   
-    const url = 'http://localhost:8000/process/';
+    const url = 'http://localhost:8000/processs/';
 
-    // let data: DataType[]; // Define the data variable
     
-    axios.get(url)
+    const data = { //Send dept for authentication
+      dept: '24shopping'
+    };
+
+    axios.post(url, data)
       .then(response => {
         const z = response.data;
         const dataxhtml = response.data[0]?.xhtml
