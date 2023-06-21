@@ -13,6 +13,7 @@ import { x } from './bpmn';
 import Bpmn from '../process/BpmnViewer';
 import { DownloadOutlined } from '@ant-design/icons';
 import Link from 'next/link';
+// import downloadfile_func from '../runprocess/downloadfile';
 
  // Print the entire x object
 const options = [
@@ -38,6 +39,52 @@ const FormDisabledDemo: React.FC = () => {
   const [bpmnID, setdatabpmn] = React.useState<string>();
   const [submitStatus, setsubmitStatus] = useState<string>('');
   const [checkactive, setcheckactive] = useState<string>('');
+  const [downloadStatus, setDownloadStatus] = useState<string>(''); // default is 'middle'
+  function downloadfile_func() {
+    const handleDownload = async () => {
+      try {
+        console.log("Start Downloading...");
+        setDownloadStatus("Preparing file to download...");
+        const payload = {
+          bpmn: bpmnID,
+          dept: "24shopping"
+        };
+  
+        const response = await axios.post('http://localhost:8001/download_sendsms', payload, {
+          responseType: 'blob',
+        });
+        console.log(response.status)
+        if (response.status === 201) {
+          setDownloadStatus("Need to wait until complete all task to download result file");
+        } else if (response.status === 200) {
+          setDownloadStatus("Start downloadfile to your computer");
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+          const link = document.createElement('a');
+          link.href = url;
+          link.setAttribute('download', 'Download_File.zip');
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+        } else {
+          setDownloadStatus("Have some error occured, Please contact RPA keerapon");
+        }
+
+      } catch (error) {
+        setDownloadStatus("Have some error occured, Please contact RPA keerapon");
+        console.error(error);
+      }
+    };
+  
+    return (<div>
+      <div>
+        Hello
+        <button onClick={handleDownload}>download file result</button>
+      </div>
+      <div>Status : {downloadStatus}</div>
+      </div>
+    );
+  }
+
   const handleUpload = () => {
     const input = document.createElement('input');
 
@@ -132,21 +179,46 @@ const FormDisabledDemo: React.FC = () => {
     if (bpmn === "DEMO_webapp_RPA"){
       console.log(bpmn)
       return <div>
-              <h1>
-                <Link href={`http://localhost:3000/doc/${bpmn}`}>Document</Link>
-              </h1>
-              <Button onClick={handleUpload} type="primary" shape="round" icon={<DownloadOutlined />}  className={styles.button}>
+        <h2 className={styles.stepdivine}>
+          Step 2 : Start Process
+        </h2>
+            <div className={styles.stepdivine}>
+              <Button onClick={handleSubmit}>Start Process</Button>
+              </div >
+              <pre className={styles.stepdivine}>{submitStatus}</pre>
+              <h2 className={styles.boxmargin}>Final step : Upload file</h2>
+              <Button onClick={handleUpload} type="primary" shape="round" icon={<DownloadOutlined />}  className={styles.boxmargin}>
                 Uploadfile
               </Button>
-              <p id="upload-status" className={styles.button}>Status: {uploadStatus}</p>
+              <p id="upload-status" >Status: {uploadStatus}</p>
               <div>processtime = {elapsedTime}</div>
+              <h2 className={styles.stepdivine}>
+                Step 3 : Download file result
+              </h2>
+              <div>{downloadfile_func()}</div>
+              <h2 className={styles.boxmargin}> Other option </h2>
+              <h4 className={styles.boxmargin}>
+                <Link href={`http://localhost:3000/doc/${bpmn}`} >Document</Link >
+              </h4>
             </div>
+    } else {
+      return <div>
+      <h2 className={styles.stepdivine}>
+        Step 2 : Start Process
+      </h2>
+      <div>
+        <Button onClick={handleSubmit}>Start Process</Button>
+      </div>
+      <pre className={styles.stepdivine}>{submitStatus}</pre>
+      <h2 className={styles.boxmargin}> Other option </h2>
+      </div>;
     }
   }
 
   const handleChange = (value:string) => {
     setSelected(value);
     const xmlz = Buffer.from(x[value], 'base64').toString('utf-8');
+    console.log(xmlz);
     setBpmnKey(prevKey => prevKey + 1);
     setXml(xmlz)
     setdatabpmn(value)
@@ -172,9 +244,11 @@ const FormDisabledDemo: React.FC = () => {
         }
       })
       .then(data => {
-        if (data['List of Active ProcessInstanceKey'].length !== 0) {
-          const statusMessage = JSON.stringify(data);
-          setcheckactive(`${statusMessage}`);
+        if (data.length !== 0) {
+          // const statusMessage = JSON.stringify(data);
+          // setcheckactive(`${statusMessage}`);
+          const formattedData = Object.entries(data[0]).map(([key, value]) => `${JSON.stringify(key)}: ${JSON.stringify(value)}`).join('\n');
+          setcheckactive(formattedData);
         } else {
           setcheckactive('Have no flow are active.');
         }    
@@ -204,10 +278,11 @@ const FormDisabledDemo: React.FC = () => {
         }
       })
       .then(data => {
-        if (data['List of Active ProcessInstanceKey'].length !== 0) {
+        if (data.length !== 0) {
           const errorMessage = "Cannot start flow due to active flow Please cancel all process as follows list of this process instance. ";
-          const statusMessage = JSON.stringify(data);
-          setsubmitStatus(`${errorMessage} ${statusMessage}`);
+          // const statusMessage = JSON.stringify(data);
+          const statusMessage = Object.entries(data[0]).map(([key, value]) => `${JSON.stringify(key)}: ${JSON.stringify(value)}`).join('\n');
+          setsubmitStatus(`${errorMessage}\n${statusMessage}`);
         } else {
           setsubmitStatus('Start flow successfully');
         }    
@@ -222,10 +297,11 @@ const FormDisabledDemo: React.FC = () => {
     <div className={styles.fullscreenz}>
       <Form
         className={styles.Upload}
-        labelCol={{ span: 7 }}
+        labelCol={{ span: 0 }}
         wrapperCol={{ span: 14 }}
         layout="horizontal"
       >
+        <h2 className={styles.stepdivine}>Step 1 : Select BPMN Process</h2>
         <Form.Item label="BPMN Process">
           <Select
             onChange={handleChange}
@@ -241,13 +317,11 @@ const FormDisabledDemo: React.FC = () => {
             value={selected}
           />
         </Form.Item>
-        <Button onClick={handleSubmit}>Submit</Button>
-        <p>Status : {submitStatus}</p>
         <div>{clasify_bpmn(bpmnID)}</div>
-        <Button onClick={checkactiveprocess}>CheckActiveProcess</Button>
-        <p>{checkactive}</p>
+        <Button onClick={checkactiveprocess} className={styles.boxmargin}>CheckActiveProcess</Button>
+        <pre>{checkactive}</pre>
       </Form>
-      <Bpmn className={styles.bpmn} key={bpmnKey} xmlcurrent={xml}/>
+      <Bpmn key={bpmnKey} xmlcurrent={xml}/>
     </div>
   );
 };

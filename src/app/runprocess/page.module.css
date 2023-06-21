@@ -15,8 +15,11 @@
     height: 1000px;
     width: 800px;
   }
-  
 
-  .button{
-    margin : 10px
+.boxmargin{
+    margin-top: 20px;
+}
+
+.stepdivine{
+    margin-bottom: 30px;
 }
