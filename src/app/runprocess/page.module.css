@@ -1,10 +1,10 @@
 .fullscreenz{
-    height: calc(100vh - 64px);
+    min-height: calc(100vh - 64px);
     display: flex;
 }
 
 .Upload{
-    padding: 70px;
+    padding: 10vh;
     max-width: 65vh;
     min-width: 60vh;
     background-color: rgb(103, 186, 186);
@@ -16,10 +16,40 @@
     width: 800px;
   }
 
+
+
+.stepdivine{
+    margin-bottom: 30px;
+}
+
+.borderstep{
+    border : 1px solid rgba(65, 64, 64, 0.433);
+}
+
+.marginbox{
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.disableddiv {
+    pointer-events: none;
+    opacity: 0.6; /* Optional: Apply opacity to visually indicate it's disabled */
+}
+
+.disabled {
+    color: rgb(0, 0, 0);
+}
+
+.statuscss{
+    font-size: large;
+}
+
 .boxmargin{
     margin-top: 20px;
 }
 
-.stepdivine{
-    margin-bottom: 30px;
+.disboxmargin{
+    margin-top: 20px;
+    pointer-events: none;
+    opacity: 0.6; /* Optional: Apply opacity to visually indicate it's disabled */
 }

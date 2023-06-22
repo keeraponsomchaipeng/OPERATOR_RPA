@@ -1,7 +1,7 @@
 'use client'
 import React from 'react';
 import { Popconfirm, Radio, Space, Table, Tag } from 'antd';
-import type { ColumnsType } from 'antd/es/table';
+import type { ColumnsType, TableProps  } from 'antd/es/table';
 import axios, { AxiosResponse } from 'axios';
 import styles from './transaction.module.css'
 import Bpmn from '../process/BpmnViewer';
@@ -11,11 +11,11 @@ import Bpmn from '../process/BpmnViewer';
 interface DataType {
   key: number;
   BpmnProcessID: string;
-  ProcessInstanceKey: string; // ProcessInstanceKey has been changed to number
+  ProcessInstanceKey: number; // ProcessInstanceKey has been changed to number
   Current_Process_ID: string;
   Current_Instance_Status: string;
-  Starttime: string;
-  Endtime: string;
+  Starttime: Date;
+  Endtime: Date;
   xhtml: string;
 }
 
@@ -27,6 +27,10 @@ const columns: ColumnsType<DataType> = [
   {
     title: 'ProcessInstanceKey',
     dataIndex: 'ProcessInstanceKey',
+    sorter: {
+      compare: (a, b) => a.ProcessInstanceKey - b.ProcessInstanceKey,
+      multiple: 3,
+    },
   },
   {
     title: 'Current_Process_ID',
@@ -35,6 +39,27 @@ const columns: ColumnsType<DataType> = [
   {
     title: 'Current_Instance_Status',
     dataIndex: 'Current_Instance_Status',
+    filters: [
+      {
+        text: 'COMPLETED',
+        value: 'COMPLETED',
+      },
+      {
+        text: 'FAILED',
+        value: 'FAILED',
+      },
+      {
+        text: 'Active',
+        value: 'Active',
+      },
+      {
+        text: 'CANCELED',
+        value: 'CANCELED',
+      },
+    ],
+    // specify the condition of filtering result
+    // here is that finding the name started with `value`
+    onFilter: (value: any, record) => record.Current_Instance_Status.indexOf(value) === 0,
   },
   {
     title: 'Starttime',
@@ -84,7 +109,9 @@ const handleCancel = (value: any) => {
     });
 };
 
-
+const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {
+  console.log('params', pagination, filters, sorter, extra);
+};
 
 
 const Appz: React.FC = () => {
@@ -131,7 +158,7 @@ const Appz: React.FC = () => {
       <div className={styles.flowdiagram}>
         <Bpmn key={bpmnKey} xmlcurrent={xml} /> {/* Using key prop here */}
       </div>
-      <Table columns={columns} dataSource={data} pagination={{ pageSize: 50 }} scroll={{ y: 330 }} onRow={(record: any) => ({ onClick: () => handleClick(record.id, record) })} />
+      <Table columns={columns} dataSource={data} onChange={onChange} pagination={{ pageSize: 50 }} scroll={{ y: 330 }}  onRow={(record: any) => ({ onClick: () => handleClick(record.id, record) })} />
     </div>
   )
 };

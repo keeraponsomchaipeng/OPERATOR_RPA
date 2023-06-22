@@ -28,6 +28,7 @@
     "react-bpmn": "^0.2.0",
     "react-countup": "^6.4.2",
     "react-dom": "^18.2.0",
+    "react-highlight-words": "^0.20.0",
     "react-router-dom": "^6.11.2",
     "react-virtuoso": "^4.3.9",
     "react-window": "^1.8.9",
