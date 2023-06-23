@@ -376,7 +376,7 @@ const FormDisabledDemo: React.FC = () => {
         </div>
         <div>{clasify_bpmn(bpmnID)}</div>
       </Form>
-      <Bpmn key={bpmnKey} xmlcurrent={xml}/>
+      <Bpmn key={bpmnKey} xmlcurrent={xml} runflowcheck="runprocess" BPMNID={bpmnID}/>
     </div>
   );
 };

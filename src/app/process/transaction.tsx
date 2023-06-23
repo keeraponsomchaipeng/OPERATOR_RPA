@@ -1,10 +1,10 @@
 'use client'
-import React from 'react';
 import { Popconfirm, Radio, Space, Table, Tag } from 'antd';
 import type { ColumnsType, TableProps  } from 'antd/es/table';
 import axios, { AxiosResponse } from 'axios';
 import styles from './transaction.module.css'
 import Bpmn from '../process/BpmnViewer';
+import React, { useState } from 'react';
 
 
 
@@ -158,7 +158,7 @@ const Appz: React.FC = () => {
   return (
     <div>
       <div className={styles.flowdiagram}>
-        <Bpmn key={bpmnKey} xmlcurrent={xml} current_bpmn_process={cur_process_id} Current_Instance_Status={cur_instance_status}/> {/* Using key prop here */}
+        <Bpmn key={bpmnKey} xmlcurrent={xml} Current_Process_ID={cur_process_id} Current_Instance_Status={cur_instance_status}/> {/* Using key prop here */}
       </div>
       <Table columns={columns} dataSource={data} onChange={onChange} pagination={{ pageSize: 50 }} scroll={{ y: 330 }}  onRow={(record: any) => ({ onClick: () => handleClick(record.id, record) })} />
     </div>

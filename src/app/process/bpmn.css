@@ -2,3 +2,15 @@
     background-color: aquamarine;
     font-size: large;
 }
+
+.failedstatus{
+    background-color: rgba(255, 0, 0, 0.718);
+}
+
+.completestatus{
+    background-color: rgba(149, 147, 147, 0.718);
+}
+
+.canceledstatus{
+    background-color: rgba(249, 241, 3, 0.783);
+}
