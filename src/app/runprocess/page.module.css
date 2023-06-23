@@ -42,6 +42,7 @@
 
 .statuscss{
     font-size: large;
+    font-weight: bold;
 }
 
 .boxmargin{
@@ -52,4 +53,8 @@
     margin-top: 20px;
     pointer-events: none;
     opacity: 0.6; /* Optional: Apply opacity to visually indicate it's disabled */
+}
+
+.back_status{
+    font-size: large;
 }

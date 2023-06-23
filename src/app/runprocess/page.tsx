@@ -42,8 +42,10 @@ const FormDisabledDemo: React.FC = () => {
   const [checkactive, setcheckactive] = useState<string>('');
   const [downloadStatus, setDownloadStatus] = useState<string>(''); // default is 'middle'
   const [isDivEnabledupload, setIsDivEnabledupload] = useState(false);
+  const [isDivEnableddownload, setIsDivEnableddownload] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  const [isUploadingicon, setIsUploadingicon] = useState(false);
   const [isEnableselect, setIsSelecting] = useState(false);
 
   function downloadfile_func() {
@@ -67,6 +69,7 @@ const FormDisabledDemo: React.FC = () => {
         } else if (response.status === 200) {
           setDownloadStatus("Start downloadfile to your computer");
           setIsDownloading(false)
+          setIsDivEnableddownload(false)
           const url = window.URL.createObjectURL(new Blob([response.data]));
           const link = document.createElement('a');
           link.href = url;
@@ -87,7 +90,7 @@ const FormDisabledDemo: React.FC = () => {
     };
   
     return (<div>
-      <div>
+      <div className={isDivEnableddownload ? styles.disabled : styles.disableddiv}>
         <Button onClick={handleDownload} type="primary" icon={<DownloadOutlined />} size={"Default"}>Download result file</Button>
       </div>
       
@@ -107,7 +110,7 @@ const FormDisabledDemo: React.FC = () => {
       const file = event.target.files[0];
       const reader = new FileReader();
       setUploadStatus('Preparing to upload file...');
-      setIsUploading(true)
+      setIsUploadingicon(true)
       // Read the file contents
       const startTime = performance.now();
       reader.onload = async (fileEvent) => {
@@ -117,6 +120,7 @@ const FormDisabledDemo: React.FC = () => {
           const encodedData = btoa(fileContents);
           console.log('Encoded data:', encodedData);
           setUploadStatus('Encoding file for upload ...');
+          setIsUploadingicon(true)
           // Create the request data
           const data = {
             encoded: encodedData,
@@ -125,7 +129,7 @@ const FormDisabledDemo: React.FC = () => {
 
           // Set the upload status to 'Uploading'
           setUploadStatus('Start Uploading file: ' + file.name);
-
+          setIsUploadingicon(true)
           // Make the POST request
           try {
             const response = await fetch('http://localhost:8001/decode', {
@@ -140,14 +144,17 @@ const FormDisabledDemo: React.FC = () => {
             if (response.ok) {
               console.log('POST request successful');
               setUploadStatus('Upload file: ' + file.name + ' successful. Start run next process already you can check status from "Process" tab');
+              setIsUploadingicon(false)
+              setIsUploading(true)
               const uploadStatusElement = document.getElementById('upload-status');
               if (uploadStatusElement) {
-                uploadStatusElement.style.color = 'green';
+                uploadStatusElement.style.color = 'rgb(0, 100, 0)';
               }
               // Perform further actions if needed
             } else if (response.status === 404) {
               console.error('POST request failed');
               setUploadStatus('Please start flow "DEMO_webapp_RPA" first');
+              setIsUploadingicon(false)
               const uploadStatusElement = document.getElementById('upload-status');
               if (uploadStatusElement) {
                 uploadStatusElement.style.color = 'red';
@@ -156,6 +163,7 @@ const FormDisabledDemo: React.FC = () => {
             } else {
               console.error('POST request failed with 4040');
               setUploadStatus('Please start flow before uploading file');
+              setIsUploadingicon(false)
               const uploadStatusElement = document.getElementById('upload-status');
               if (uploadStatusElement) {
                 uploadStatusElement.style.color = 'red';
@@ -165,6 +173,7 @@ const FormDisabledDemo: React.FC = () => {
           } catch (error) {
             console.error('Error occurred while making the POST request:', error);
             setUploadStatus('Error occurred while making the POST request');
+            setIsUploadingicon(false)
             const uploadStatusElement = document.getElementById('upload-status');
             if (uploadStatusElement) {
               uploadStatusElement.style.color = 'red';
@@ -176,6 +185,7 @@ const FormDisabledDemo: React.FC = () => {
           }
         }else{
           setUploadStatus('ERROR occurred while making upload');
+          setIsUploadingicon(false)
           const uploadStatusElement = document.getElementById('upload-status');
           if (uploadStatusElement) {
             uploadStatusElement.style.color = 'red';
@@ -209,11 +219,11 @@ const FormDisabledDemo: React.FC = () => {
               <pre className={styles.stepdivine}>{submitStatus}</pre>
               <div className={isDivEnabledupload ? styles.disabled : styles.disableddiv}>
               <h2 className={styles.boxmargin}>Step 3 : Upload file</h2>
-              <Button onClick={handleUpload} type="primary" shape="round" icon={<DownloadOutlined />}  className={isUploading ? styles.disboxmargin : styles.boxmargin}>
+              <Button onClick={handleUpload} type="primary" shape="round" icon={<DownloadOutlined />}  className={isUploadingicon ? styles.disboxmargin : styles.boxmargin}>
                 Uploadfile
               </Button>
               <div className={isDivEnabledupload ? styles.disabled : styles.disableddiv}></div>
-              <p id="upload-status" >Status: {uploadStatus}</p>
+              <p id="upload-status" className={styles.back_status}>Status: {uploadStatus} {isUploadingicon && <Spin size="large"/>}</p>
               <div>processtime = {elapsedTime}</div>
               </div>
               <h2 className={styles.marginbox}>
@@ -288,6 +298,9 @@ const FormDisabledDemo: React.FC = () => {
           setcheckactive(formattedData);
           if (datacheck['Current_Process_ID'] === "Upload_file_24shoping") { // check for flow DEMO_webapp_RPA
             setIsDivEnabledupload(true)
+          } 
+          else if (datacheck['Current_Process_ID'] === "UserTask_download_file_result") {
+            setIsDivEnableddownload(true)
           }
         } else {
           setcheckactive(`Have no active process for ${bpmnID}`);

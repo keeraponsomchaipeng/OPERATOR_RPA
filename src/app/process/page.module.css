@@ -17,3 +17,8 @@
     border-color: rgb(96, 95, 95);
     border-width: 1px;
 }
+
+.activestatus{
+    background-color: chartreuse;
+    font-size: large;
+}

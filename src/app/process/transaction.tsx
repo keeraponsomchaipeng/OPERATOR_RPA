@@ -141,22 +141,24 @@ const Appz: React.FC = () => {
       });
       
   }, [])
-  const [xml, setXml] = React.useState<string>();
+  const [xml, setXml] = React.useState<any>();
   const [bpmnKey, setBpmnKey] = React.useState<number>(0); // Adding state to track key
-
+  const [cur_process_id, setcur_process_id] = React.useState<any>();
+  const [cur_instance_status, setcur_instance_status] = React.useState<any>();
   const handleClick = (Id: any, record: any) => {
     const xmlz = Buffer.from(record.xhtml, 'base64').toString('utf-8');
+    setcur_process_id(record.Current_Process_ID)
+    setcur_instance_status(record.Current_Instance_Status)
     setXml(xmlz);
     setBpmnKey(prevKey => prevKey + 1); // Incrementing the key to force remount
-    console.log(Id);
-    console.log(record);
+
     // alert(`Cell clicked! Id: ${Id}, BpmnProcessID: ${record.BpmnProcessID}`)
   }
 
   return (
     <div>
       <div className={styles.flowdiagram}>
-        <Bpmn key={bpmnKey} xmlcurrent={xml} /> {/* Using key prop here */}
+        <Bpmn key={bpmnKey} xmlcurrent={xml} current_bpmn_process={cur_process_id} Current_Instance_Status={cur_instance_status}/> {/* Using key prop here */}
       </div>
       <Table columns={columns} dataSource={data} onChange={onChange} pagination={{ pageSize: 50 }} scroll={{ y: 330 }}  onRow={(record: any) => ({ onClick: () => handleClick(record.id, record) })} />
     </div>
