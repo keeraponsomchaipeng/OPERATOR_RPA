@@ -92,7 +92,7 @@ const Bpmn: React.FC<BpmnProps> = ({ xmlcurrent , Current_Process_ID , Current_I
           const canvas = viewer.get('canvas');
           const overlays = viewer.get('overlays');
           canvas.zoom('fit-viewport');
-          const overlayData = res.map((item: any) => {
+          const overlayData:any = res.map((item: any) => {
             const key = Object.keys(item)[0];
             const keysstatus = Object.keys(item[key])[0];
             const countstatus = item[key][keysstatus]
@@ -124,22 +124,31 @@ const Bpmn: React.FC<BpmnProps> = ({ xmlcurrent , Current_Process_ID , Current_I
             };
           });
           
-          overlayData.forEach((data) => {
-            overlays.add(data.key, {
-              position: {
-                top: data.topstatus,
-                right: data.rightstatus,
-              },
-              show: {
-                minZoom: 0.5,
-                maxZoom: 5.0,
-              },
-              html: `<div>
-                        <div class="${getClassByStatus(data.keysstatus)}">${data.keysstatus} </div>
-                        <h4 >${data.countstatus}</h4>
-                      </div>`,
-            });
+          overlayData.forEach((data:any) => {
+            if (data.key) {
+              try {
+                overlays.add(data.key, {
+                  position: {
+                    top: data.topstatus,
+                    right: data.rightstatus,
+                  },
+                  show: {
+                    minZoom: 0.5,
+                    maxZoom: 5.0,
+                  },
+                  html: `<div>
+                            <div class="${getClassByStatus(data.keysstatus)}">${data.keysstatus} </div>
+                            <h4 >${data.countstatus}</h4>
+                          </div>`,
+                });
+              } catch (error) {
+                console.log(`Error adding overlay for key: ${data.key}`);
+                console.error(error);
+              }
+            }
           });
+          
+          
           
 
    });

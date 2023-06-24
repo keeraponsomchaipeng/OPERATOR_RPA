@@ -261,7 +261,7 @@ const FormDisabledDemo: React.FC = () => {
     }
   }
 
-  const handleChange = (value:string) => {
+  const handleChange = (value:any) => {
     setSelected(value);
     const xmlz = Buffer.from(x[value], 'base64').toString('utf-8');
     setBpmnKey(prevKey => prevKey + 1);
