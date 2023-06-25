@@ -123,10 +123,55 @@ const Bpmn: React.FC<BpmnProps> = ({ xmlcurrent , Current_Process_ID , Current_I
               countstatus
             };
           });
+
+          let mincount = Infinity;
+          let maxcount = 0;
+          overlayData.forEach((item:any) => {
+            const number = item.countstatus
+          
+            if (typeof number === 'number' && number < mincount) {
+              mincount = number;
+            }
+            if (typeof number === 'number' && number > maxcount) {
+              maxcount = number;
+            }
+          });
+          function performrgb (divcolor: number): {r: number, g: number, b: number} {
+            if (divcolor <= 255) {
+              const r = 0;
+              const g = 255;
+              const b = 255 - divcolor;
+              return { r, g, b };
+            } else if (divcolor > 255 && divcolor <= 510) {
+              const r = divcolor - 255;
+              const g = 255;
+              const b = 0;
+              return { r, g, b };
+            } else if (divcolor > 510) {
+              const r = 255;
+              const g = 255 - (divcolor - 510);
+              const b = 0;
+              return { r, g, b };
+            } else {
+              // Default values
+              return { r: 0, g: 0, b: 0 };
+            }
+          }
+          
           
           overlayData.forEach((data:any) => {
             if (data.key) {
-              try {
+              try {                  
+                const divinecolor:number = (765/maxcount)*data.countstatus;
+                const { r, g, b } = performrgb(divinecolor);
+                // const countheatmapColor = {
+                //   red: r,
+                //   green: g,
+                //   blue: b,
+                //   alpha: 0.783                
+                // };
+                // const root = document.documentElement;
+                // root.style.setProperty('--countheatmap-color', `rgba(${countheatmapColor.red}, ${countheatmapColor.green}, ${countheatmapColor.blue}, ${countheatmapColor.alpha})`);
                 overlays.add(data.key, {
                   position: {
                     top: data.topstatus,
@@ -138,7 +183,7 @@ const Bpmn: React.FC<BpmnProps> = ({ xmlcurrent , Current_Process_ID , Current_I
                   },
                   html: `<div>
                             <div class="${getClassByStatus(data.keysstatus)}">${data.keysstatus} </div>
-                            <h4 >${data.countstatus}</h4>
+                            <h4 style="background-color: rgba(${r}, ${g}, ${b}, 0.783)">${data.countstatus}</h4>
                           </div>`,
                 });
               } catch (error) {

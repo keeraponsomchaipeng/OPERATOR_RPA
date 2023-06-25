@@ -14,3 +14,7 @@
 .canceledstatus{
     background-color: rgba(249, 241, 3, 0.783);
 }
+
+.countheatmap {
+    background-color: var(--countheatmap-color, rgb(0, 242, 255));
+  }
