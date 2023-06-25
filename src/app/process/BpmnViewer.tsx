@@ -136,25 +136,28 @@ const Bpmn: React.FC<BpmnProps> = ({ xmlcurrent , Current_Process_ID , Current_I
               maxcount = number;
             }
           });
-          function performrgb (divcolor: number): {r: number, g: number, b: number} {
+          function performrgb (divcolor: number): {r: number, g: number, b: number, a: number} {
             if (divcolor <= 255) {
               const r = 0;
               const g = 255;
               const b = 255 - divcolor;
-              return { r, g, b };
+              const a = 0.6*divcolor/765;
+              return { r, g, b ,a};
             } else if (divcolor > 255 && divcolor <= 510) {
               const r = divcolor - 255;
               const g = 255;
               const b = 0;
-              return { r, g, b };
+              const a = 0.6*divcolor/765;
+              return { r, g, b ,a};
             } else if (divcolor > 510) {
               const r = 255;
               const g = 255 - (divcolor - 510);
               const b = 0;
-              return { r, g, b };
+              const a = 0.6*divcolor/765;
+              return { r, g, b ,a};
             } else {
               // Default values
-              return { r: 0, g: 0, b: 0 };
+              return { r: 0, g: 0, b: 0, a: 0 };
             }
           }
           
@@ -163,7 +166,7 @@ const Bpmn: React.FC<BpmnProps> = ({ xmlcurrent , Current_Process_ID , Current_I
             if (data.key) {
               try {                  
                 const divinecolor:number = (765/maxcount)*data.countstatus;
-                const { r, g, b } = performrgb(divinecolor);
+                const { r, g, b, a } = performrgb(divinecolor);
                 // const countheatmapColor = {
                 //   red: r,
                 //   green: g,
@@ -183,9 +186,22 @@ const Bpmn: React.FC<BpmnProps> = ({ xmlcurrent , Current_Process_ID , Current_I
                   },
                   html: `<div>
                             <div class="${getClassByStatus(data.keysstatus)}">${data.keysstatus} </div>
-                            <h4 style="background-color: rgba(${r}, ${g}, ${b}, 0.783)">${data.countstatus}</h4>
+                            <h4 style="background-color: rgba(${r}, ${g}, ${b}, ${a})">${data.countstatus}</h4>
                           </div>`,
                 });
+                // overlays.add(data.key, {
+                //   position: {
+                //     top: -10,
+                //     right: 110,
+                //   },
+                //   show: {
+                //     minZoom: 0.5,
+                //     maxZoom: 5.0,
+                //   },
+                //   html: `<div>
+                //             <h4 class="testclass" style="background-color: rgba(${r}, ${g}, ${b}, ${a})"></h4>
+                //           </div>`,
+                // });
               } catch (error) {
                 console.log(`Error adding overlay for key: ${data.key}`);
                 console.error(error);

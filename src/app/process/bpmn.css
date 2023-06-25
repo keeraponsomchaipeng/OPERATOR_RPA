@@ -1,20 +1,29 @@
 .activestatus{
     background-color: aquamarine;
     font-size: large;
+    font-weight: 700;
 }
 
 .failedstatus{
-    background-color: rgba(255, 0, 0, 0.718);
+    background-color: rgba(255, 0, 0, 0.829);
+    font-weight: 700;
 }
 
 .completestatus{
-    background-color: rgba(149, 147, 147, 0.718);
+    background-color: rgba(149, 147, 147, 0.829);
+    font-weight: 700;
 }
 
 .canceledstatus{
-    background-color: rgba(249, 241, 3, 0.783);
+    background-color: rgba(249, 241, 3, 0.829);
+    font-weight: 700;
 }
 
 .countheatmap {
     background-color: var(--countheatmap-color, rgb(0, 242, 255));
   }
+
+.testclass {
+    min-width: 120px;
+    min-height: 100px;
+}
