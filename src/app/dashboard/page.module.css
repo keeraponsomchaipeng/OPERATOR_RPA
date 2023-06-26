@@ -1,6 +1,6 @@
 .bgmanagae{
     display: flex;
-    align-items:start;
+    align-items:flex-start;
     background-color: rgb(167, 179, 179);
     height: calc(100vh - 64px);
     margin:auto;

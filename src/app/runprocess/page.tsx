@@ -12,7 +12,7 @@ import styles from './page.module.css';
 import axios, { AxiosResponse } from 'axios';
 import { x } from './bpmn';
 import Bpmn from '../process/BpmnViewer';
-import { DownloadOutlined } from '@ant-design/icons';
+import { DownloadOutlined , FileTextOutlined} from '@ant-design/icons';
 import Link from 'next/link';
 // import downloadfile_func from '../runprocess/downloadfile';
 
@@ -25,6 +25,10 @@ const options = [
   {
     value: 'DEMO_webapp_RPA',
     label: 'DEMO_webapp_RPA',
+  },
+  {
+    value: 'Testone_more_flow',
+    label: 'Testone_more_flow',
   },
 ];
 
@@ -62,7 +66,6 @@ const FormDisabledDemo: React.FC = () => {
         const response = await axios.post('http://localhost:8001/download_sendsms', payload, {
           responseType: 'blob',
         });
-        console.log(response.status)
         if (response.status === 201) {
           setDownloadStatus("Need to wait until complete all task to download result file");
           setIsDownloading(false)
@@ -118,7 +121,6 @@ const FormDisabledDemo: React.FC = () => {
         if (typeof fileContents === 'string') {
           // Encode the file contents as base64
           const encodedData = btoa(fileContents);
-          console.log('Encoded data:', encodedData);
           setUploadStatus('Encoding file for upload ...');
           setIsUploadingicon(true)
           // Create the request data
@@ -206,12 +208,11 @@ const FormDisabledDemo: React.FC = () => {
 
   function clasify_bpmn(bpmn:any){
     if (bpmn === "DEMO_webapp_RPA"){
-      console.log(bpmn)
       return <div>
         <div className={isEnableselect ? styles.disabled : styles.disableddiv}>
         <div className={styles.borderstep}>
         <h2 className={styles.stepdivine}>
-          Step 2 : Start Process
+          Step 2 : Start Process  <Button icon={<FileTextOutlined />} href={`http://localhost:3000/doc/${bpmn}`} /> 
         </h2>
             <div className={styles.stepdivine}>
               <Button onClick={handleSubmit}>Start Process</Button>
@@ -232,9 +233,6 @@ const FormDisabledDemo: React.FC = () => {
               <div>{downloadfile_func()}</div>
               </div>
               <div className={styles.borderstep}>
-              <h2 className={styles.boxmargin}>
-                <Link href={`http://localhost:3000/doc/${bpmn}`} >Document</Link >
-              </h2>
               <Button onClick={checkactiveprocess} className={styles.marginbox} >CheckActiveProcess</Button>
               <pre>{checkactive}</pre>
               </div>
@@ -262,6 +260,7 @@ const FormDisabledDemo: React.FC = () => {
   }
 
   const handleChange = (value:any) => {
+    console.log(value)
     setSelected(value);
     const xmlz = Buffer.from(x[value], 'base64').toString('utf-8');
     setBpmnKey(prevKey => prevKey + 1);
@@ -357,7 +356,7 @@ const FormDisabledDemo: React.FC = () => {
         layout="horizontal"
       >
         <div className={styles.borderstep}>
-        <h2 className={styles.stepdivine}>Step 1 : Select BPMN Process</h2>
+        <h2 className={styles.stepdivine}>Step 1 : Select Process</h2>
         <Form.Item label="BPMN Process">
           <Select
             onChange={handleChange}
@@ -376,11 +375,21 @@ const FormDisabledDemo: React.FC = () => {
         </div>
         <div>{clasify_bpmn(bpmnID)}</div>
       </Form>
-      <Bpmn key={bpmnKey} xmlcurrent={xml} runflowcheck="runprocess" BPMNID={bpmnID}/>
+      <Bpmn 
+      key={bpmnKey} 
+      xmlcurrent={xml} 
+      runflowcheck="runprocess" 
+      BPMNID={bpmnID}
+      Current_Process_ID=""
+      Current_Instance_Status="" />
     </div>
   );
 };
 
-export default () => <FormDisabledDemo />;
+// export default () => <FormDisabledDemo />;
 
+const Page: React.FC = () => {
+  return <FormDisabledDemo />;
+};
 
+export default Page;

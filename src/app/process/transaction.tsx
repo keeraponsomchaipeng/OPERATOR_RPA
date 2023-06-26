@@ -114,12 +114,10 @@ const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter,
 };
 
 
-const Appz: React.FC = () => {
+const Transaction: React.FC = () => {
   const [data, setData] = React.useState<DataType[]>([])
   React.useEffect(() => {
-  
     const url = 'http://localhost:8000/processs/';
-
     
     const data = { //Send dept for authentication
       dept: '24shopping'
@@ -128,13 +126,12 @@ const Appz: React.FC = () => {
     axios.post(url, data)
       .then(response => {
         const z = response.data;
-        const dataxhtml = response.data[0]?.xhtml
-        //data = z; // Assign the response data to the data variable
-        setData(response.data)
+        const dataxhtml = response.data[0]?.xhtml;
+        setData(response.data);
         console.log(z);
-        console.log(dataxhtml)
+        console.log(dataxhtml);
         const xmlz = Buffer.from(dataxhtml, 'base64').toString('utf-8');
-        setXml(xmlz)
+        setXml(xmlz);
       })
       .catch(error => {
         console.error('Error:', error);
@@ -145,10 +142,11 @@ const Appz: React.FC = () => {
   const [bpmnKey, setBpmnKey] = React.useState<number>(0); // Adding state to track key
   const [cur_process_id, setcur_process_id] = React.useState<any>();
   const [cur_instance_status, setcur_instance_status] = React.useState<any>();
+
   const handleClick = (Id: any, record: any) => {
     const xmlz = Buffer.from(record.xhtml, 'base64').toString('utf-8');
-    setcur_process_id(record.Current_Process_ID)
-    setcur_instance_status(record.Current_Instance_Status)
+    setcur_process_id(record.Current_Process_ID);
+    setcur_instance_status(record.Current_Instance_Status);
     setXml(xmlz);
     setBpmnKey(prevKey => prevKey + 1); // Incrementing the key to force remount
 
@@ -158,11 +156,24 @@ const Appz: React.FC = () => {
   return (
     <div>
       <div className={styles.flowdiagram}>
-        <Bpmn key={bpmnKey} xmlcurrent={xml} Current_Process_ID={cur_process_id} Current_Instance_Status={cur_instance_status}/> {/* Using key prop here */}
+        <Bpmn 
+          key={bpmnKey} 
+          xmlcurrent={xml} 
+          Current_Process_ID={cur_process_id} 
+          Current_Instance_Status={cur_instance_status} 
+          runflowcheck="" 
+          BPMNID=""/> 
       </div>
-      <Table columns={columns} dataSource={data} onChange={onChange} pagination={{ pageSize: 50 }} scroll={{ y: 330 }}  onRow={(record: any) => ({ onClick: () => handleClick(record.id, record) })} />
+      <Table 
+        columns={columns} 
+        dataSource={data} 
+        onChange={onChange} 
+        pagination={{ pageSize: 50 }} 
+        scroll={{ y: 330 }}  
+        onRow={(record: any) => ({ onClick: () => handleClick(record.id, record) })} 
+      />
     </div>
   )
 };
 
-export default Appz;
+export default Transaction;

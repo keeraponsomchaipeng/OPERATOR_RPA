@@ -7,8 +7,8 @@ import Link from 'next/link';
 
 const width =1200
 const height =600
+
 const FormDisabledDemo: React.FC = () => {
-  
   return (
     <div className={styles.fullscreenz}>
       <h1>วิธีการใช้งาน Web UI ในการ Run Robot</h1>
@@ -45,6 +45,10 @@ const FormDisabledDemo: React.FC = () => {
   );
 };
 
-export default () => <FormDisabledDemo />;
+const Page: React.FC = () => {
+  return <FormDisabledDemo />;
+};
+
+export default Page;
 
 

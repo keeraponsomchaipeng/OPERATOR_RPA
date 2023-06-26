@@ -17,6 +17,10 @@ const options = [
     value: 'advance_sharepoint',
     label: 'advance_sharepoint',
   },
+  {
+    value: 'Testone_more_flow',
+    label: 'Testone_more_flow',
+  },
 ];
 
 const valuesList = options.map((option) => option.value);

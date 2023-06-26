@@ -1,29 +1,49 @@
 .activestatus{
-    background-color: aquamarine;
-    font-size: large;
-    font-weight: 700;
+    background-color: rgb(23, 247, 101);
+    display: flex;
+    border-radius: 35%;
+    font-weight: 650;
+    font-size:  12px;
+    color: white;
 }
 
 .failedstatus{
-    background-color: rgba(255, 0, 0, 0.829);
+    background-color: rgb(255, 0, 0);
     font-weight: 700;
+    display: flex;
+    border-radius: 35%;
+    font-size:  12px;
+    color: white;
 }
 
 .completestatus{
-    background-color: rgba(149, 147, 147, 0.829);
+    background-color: rgb(183, 191, 191);
     font-weight: 700;
+    display: flex;
+    border-radius: 35%;
+    font-size:  12px;
+    color: white;
 }
 
 .canceledstatus{
-    background-color: rgba(249, 241, 3, 0.829);
+    background-color: rgb(157, 157, 157);
     font-weight: 700;
+    display: flex;
+    border-radius: 35%;
+    font-weight: 650;
+    font-size:  12px;
+    color: white;
 }
 
 .countheatmap {
-    background-color: var(--countheatmap-color, rgb(0, 242, 255));
+    background-color: var(--countheatmap-color, rgba(0, 255, 0, 0.779));
   }
 
 .testclass {
-    min-width: 120px;
-    min-height: 100px;
+    min-width: 140px;
+    min-height: 120px;
+    border-radius: 100%; /* Make the shape a circle */
 }
+  
+  
+  

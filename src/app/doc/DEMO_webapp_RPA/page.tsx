@@ -3,12 +3,11 @@
 import React, { useState } from 'react';
 import styles from './page.module.css';
 import Image from 'next/image';
-import Link from 'next/link';
 
 const width =1200
 const height =600
+
 const FormDisabledDemo: React.FC = () => {
-  
   return (
     <div className={styles.fullscreenz}>
       <h3>ตัวอย่างการใช้งาน Flow DEMO_webapp_RPA</h3>
@@ -34,6 +33,8 @@ const FormDisabledDemo: React.FC = () => {
   );
 };
 
-export default () => <FormDisabledDemo />;
+export default function DemoWebappRPA() {
+  return <FormDisabledDemo />;
+}
 
 
