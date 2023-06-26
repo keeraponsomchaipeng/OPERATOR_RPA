@@ -14,7 +14,6 @@
     "@mui/material": "^5.13.4",
     "@mui/styled-engine-sc": "^5.12.0",
     "@types/node": "20.2.5",
-    "@types/react": "18.2.7",
     "@types/react-dom": "18.2.4",
     "axios": "^1.4.0",
     "bpmn-js": "^13.2.0",
@@ -35,5 +34,8 @@
     "styled-components": "^5.3.11",
     "typescript": "5.0.4",
     "xml-js": "^1.6.11"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.14"
   }
 }

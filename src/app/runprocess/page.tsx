@@ -110,7 +110,9 @@ const FormDisabledDemo: React.FC = () => {
 
     // Listen for file selection
     input.addEventListener('change', async (event) => {
-      const file = event.target.files[0];
+      const target = event.target as HTMLInputElement;
+      if (target && target.files && target.files.length > 0){
+      const file = target.files[0];
       const reader = new FileReader();
       setUploadStatus('Preparing to upload file...');
       setIsUploadingicon(true)
@@ -197,6 +199,7 @@ const FormDisabledDemo: React.FC = () => {
       };
 
       reader.readAsBinaryString(file);
+    }
     });
   };
 // Pre check for current step that's upload or not
