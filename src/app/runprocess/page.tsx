@@ -380,9 +380,9 @@ const FormDisabledDemo: React.FC = () => {
       </Form>
       <Bpmn 
       key={bpmnKey} 
-      xmlcurrent={xml} 
+      xmlcurrent={xml ?? ''}
       runflowcheck="runprocess" 
-      BPMNID={bpmnID}
+      BPMNID={bpmnID ?? ''}
       Current_Process_ID=""
       Current_Instance_Status="" />
     </div>
