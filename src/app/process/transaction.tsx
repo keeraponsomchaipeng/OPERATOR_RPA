@@ -120,7 +120,7 @@ const Transaction: React.FC = () => {
     const url = 'http://localhost:8000/processs/';
     
     const data = { //Send dept for authentication
-      dept: '24shopping'
+      userid: 'keeraponsom'
     };
 
     axios.post(url, data)
