@@ -14,7 +14,11 @@ import Appz from './transaction';
 const { Header, Sider, Content } = Layout;
 
 
+
 const App: React.FC = () => {
+  const email = localStorage.getItem('email');
+  const username = localStorage.getItem('username');
+  const access_token = localStorage.getItem('access_token');
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer },
@@ -32,7 +36,7 @@ const App: React.FC = () => {
             {
               key: '1',
               icon: <UserOutlined />,
-              label: 'nav 1',
+              label: email,
             },
             {
               key: '2',

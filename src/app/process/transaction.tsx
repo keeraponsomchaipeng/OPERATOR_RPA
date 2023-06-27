@@ -117,10 +117,13 @@ const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter,
 const Transaction: React.FC = () => {
   const [data, setData] = React.useState<DataType[]>([])
   React.useEffect(() => {
+    const email = localStorage.getItem('email');
+    const username = localStorage.getItem('username');
+    const access_token = localStorage.getItem('access_token');
     const url = 'http://localhost:8000/processs/';
     
     const data = { //Send dept for authentication
-      userid: 'keeraponsom'
+      userid: email
     };
 
     axios.post(url, data)
