@@ -10,7 +10,6 @@ import {
 import React, { useState } from 'react';
 import styles from './page.module.css';
 import axios, { AxiosResponse } from 'axios';
-import { x } from './bpmn';
 import Bpmn from '../process/BpmnViewer';
 import { DownloadOutlined , FileTextOutlined} from '@ant-design/icons';
 import Link from 'next/link';
@@ -27,8 +26,8 @@ const options = [
     label: 'DEMO_webapp_RPA',
   },
   {
-    value: 'Testone_more_flow',
-    label: 'Testone_more_flow',
+    value: 'Problem_solving_requests',
+    label: 'Problem_solving_requests',
   },
 ];
 
@@ -266,11 +265,29 @@ const FormDisabledDemo: React.FC = () => {
   }
 
   const handleChange = (value:any) => {
-    console.log(value)
-    setSelected(value);
-    const xmlz = Buffer.from(x[value], 'base64').toString('utf-8');
-    setBpmnKey(prevKey => prevKey + 1);
-    setXml(xmlz)
+    function getxml (val:any):any {
+      interface Post {
+        bpmnid: string[];
+      }
+
+      const postData: Post = {
+        bpmnid: [val],
+      };
+      setSelected(val);
+      axios.post('http://localhost:8000/process/', postData)
+        .then((response: AxiosResponse) => {
+          const xml = response.data[val];
+          console.log(xml)
+          const xmlz = Buffer.from(xml, 'base64').toString('utf-8');
+          setBpmnKey(prevKey => prevKey + 1);
+          setXml(xmlz)
+          return xml
+        })
+        .catch((error: Error) => {
+          console.log(error);
+        });
+    }
+    getxml(value)
     setdatabpmn(value)
     setIsSelecting(true)
   };
