@@ -53,6 +53,9 @@ const FormDisabledDemo: React.FC = () => {
   const [isEnableselect, setIsSelecting] = useState(false);
 
   function downloadfile_func() {
+    const email = typeof localStorage !== 'undefined' ? localStorage.getItem('email') : null;
+    const username = typeof localStorage !== 'undefined' ? localStorage.getItem('username') : null;
+    const access_token = typeof localStorage !== 'undefined' ? localStorage.getItem('access_token') : null;
     const handleDownload = async () => {
       try {
         console.log("Start Downloading...");
@@ -60,7 +63,7 @@ const FormDisabledDemo: React.FC = () => {
         setIsDownloading(true)
         const payload = {
           bpmn: bpmnID,
-          userid: "keeraponsom"
+          userid: email
         };
   
         const response = await axios.post('http://localhost:8001/download_sendsms', payload, {
@@ -94,7 +97,7 @@ const FormDisabledDemo: React.FC = () => {
   
     return (<div>
       <div className={isDivEnableddownload ? styles.disabled : styles.disableddiv}>
-        <Button onClick={handleDownload} type="primary" icon={<DownloadOutlined />} size={"Default"}>Download result file</Button>
+        <Button onClick={handleDownload} type="primary" icon={<DownloadOutlined />} >Download result file</Button>
       </div>
       
       <div className={styles.statuscss}>Status : {downloadStatus} {isDownloading && <Spin size="large"/>}</div>

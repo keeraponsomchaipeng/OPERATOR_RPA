@@ -16,9 +16,9 @@ const { Header, Sider, Content } = Layout;
 
 
 const App: React.FC = () => {
-  const email = localStorage.getItem('email');
-  const username = localStorage.getItem('username');
-  const access_token = localStorage.getItem('access_token');
+  const email = typeof localStorage !== 'undefined' ? localStorage.getItem('email') : null;
+  const username = typeof localStorage !== 'undefined' ? localStorage.getItem('username') : null;
+  const access_token = typeof localStorage !== 'undefined' ? localStorage.getItem('access_token') : null;
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer },
