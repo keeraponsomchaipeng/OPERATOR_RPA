@@ -100,7 +100,7 @@ const handleCancel = (value: any) => {
   }
   let x: DictionaryResponse = {};
 
-  axios.post('http://localhost:8000/cancel/', postData)
+  axios.post('http://10.182.37.125:8000/cancel/', postData)
     .then((response: AxiosResponse) => {
       x = response.data;
     })
@@ -120,7 +120,7 @@ const Transaction: React.FC = () => {
     const email = typeof localStorage !== 'undefined' ? localStorage.getItem('email') : null;
     const username = typeof localStorage !== 'undefined' ? localStorage.getItem('username') : null;
     const access_token = typeof localStorage !== 'undefined' ? localStorage.getItem('access_token') : null;
-    const url = 'http://localhost:8000/processs/';
+    const url = 'http://10.182.37.125:8000/processs/';
     
     const data = { //Send dept for authentication
       userid: email

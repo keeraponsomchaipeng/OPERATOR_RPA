@@ -98,7 +98,7 @@ const Bpmn: React.FC<BpmnProps> = ({ xmlcurrent , Current_Process_ID , Current_I
       const postData = {
         bpmnid : [BPMNID]
       }
-      axios.post('http://localhost:8000/trackprocess/', postData)
+      axios.post('https://10.182.37.125:8000/trackprocess/', postData)
       .then((response: AxiosResponse) => {
         const res = response.data;
         const viewer = new BpmnViewer({ container: viewerRef.current });
