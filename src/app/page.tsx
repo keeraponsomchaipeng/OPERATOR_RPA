@@ -23,7 +23,7 @@ export default function Home()
   const rounter = useRouter()
 
   React.useEffect(() => {
-    const url = 'https://cpalloidcuat.auth.ap-southeast-1.amazoncognito.com/login?client_id=47a7tut24n5fdqsatauin2qd5a&response_type=code&scope=email+openid+profile&redirect_uri=http://localhost:3000/callback';
+    const url = 'https://cpalloidcuat.auth.ap-southeast-1.amazoncognito.com/login?client_id=47a7tut24n5fdqsatauin2qd5a&response_type=code&scope=email+openid+profile&redirect_uri=https://10.182.37.125:3000/callback';
 
     rounter.push(url)
   }
