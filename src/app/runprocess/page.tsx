@@ -25,7 +25,7 @@ const optionz = async (): Promise<any> => {
   };
 
   try {
-    const response = await axios.post('http://10.182.37.125:8000/auth_runflow', postData);
+    const response = await axios.post('https://10.182.37.125:8000/auth_runflow', postData);
     const all_flow = response.data;
     const optionx = all_flow.map((item: any) => ({
       value: item,
@@ -253,7 +253,7 @@ const FormDisabledDemo: React.FC = () => {
                 Final step : Download file result
               </h2>
               <div className={styles.stepdivine}>
-                Sharepoint folder<Button icon={<FolderOpenOutlined />} href={`https://cpallgroup.sharepoint.com/:f:/r/sites/MST-WORK-shopat24/Shared%20Documents/Shop_at24/following_send_sms?csf=1&web=1&e=ryRbjO`} /> 
+                Sharepoint folder : <Button icon={<FolderOpenOutlined />} href={`https://cpallgroup.sharepoint.com/:f:/r/sites/MST-WORK-shopat24/Shared%20Documents/Shop_at24/following_send_sms?csf=1&web=1&e=ryRbjO`} /> 
               </div>
               <div>{downloadfile_func()}</div>
               </div>
@@ -296,7 +296,7 @@ const FormDisabledDemo: React.FC = () => {
         bpmnid: [val],
       };
       setSelected(val);
-      axios.post('http://10.182.37.125:8000/process/', postData)
+      axios.post('https://10.182.37.125:8000/process/', postData)
         .then((response: AxiosResponse) => {
           const xml = response.data[val];
           const xmlz = Buffer.from(xml, 'base64').toString('utf-8');
@@ -314,7 +314,7 @@ const FormDisabledDemo: React.FC = () => {
   };
 
   const checkactiveprocess = () => {
-    const url = 'http://10.182.37.125:8000/checkactiveprocess';
+    const url = 'https://10.182.37.125:8000/checkactiveprocess';
     const payload = { bpmnprocessID_pl: selected };
     setcheckactive('Start Request check active process');
     fetch(url, {
@@ -356,7 +356,7 @@ const FormDisabledDemo: React.FC = () => {
   }
 
   const handleSubmit = () => {
-    const url = 'http://10.182.37.125:8000/startflow';
+    const url = 'https://10.182.37.125:8000/startflow';
     const payload = { bpmnprocessID_pl: selected };
     setsubmitStatus('Preparing to upload file...');
     fetch(url, {
