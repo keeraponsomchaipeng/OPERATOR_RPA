@@ -13,25 +13,31 @@ import axios, { AxiosResponse } from 'axios';
 import Bpmn from '../process/BpmnViewer';
 import { DownloadOutlined , FileTextOutlined} from '@ant-design/icons';
 import Link from 'next/link';
-// import downloadfile_func from '../runprocess/downloadfile';
+import { OperationCanceledException } from 'typescript';
 
- // Print the entire x object
-const options = [
-  {
-    value: 'CAMUNDA_CLOUD_RPA_TEST',
-    label: 'CAMUNDA_CLOUD_RPA_TEST',
-  },
-  {
-    value: 'DEMO_webapp_RPA',
-    label: 'DEMO_webapp_RPA',
-  },
-  {
-    value: 'Problem_solving_requests',
-    label: 'Problem_solving_requests',
-  },
-];
+const email = typeof localStorage !== 'undefined' ? localStorage.getItem('email') : null;
+const username = typeof localStorage !== 'undefined' ? localStorage.getItem('username') : null;
+const access_token = typeof localStorage !== 'undefined' ? localStorage.getItem('access_token') : null;
 
+const optionz = async (): Promise<any> => {
+  const postData = {
+    userid: email,
+  };
 
+  try {
+    const response = await axios.post('http://localhost:8000/auth_runflow', postData);
+    const all_flow = response.data;
+    const optionx = all_flow.map((item: any) => ({
+      value: item,
+      label: item,
+    }));
+    console.log(optionx);
+    return optionx;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
 
 
 const FormDisabledDemo: React.FC = () => {
@@ -50,11 +56,22 @@ const FormDisabledDemo: React.FC = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [isUploadingicon, setIsUploadingicon] = useState(false);
   const [isEnableselect, setIsSelecting] = useState(false);
+  const [options, setOptions] = useState<any[]>([]);
+
+  React.useEffect(() => {
+    const fetchOptions = async () => {
+      try {
+        const fetchedOptions = await optionz();
+        setOptions(fetchedOptions);
+      } catch (error) {
+        console.error('Failed to fetch options:', error);
+      }
+    };
+
+    fetchOptions();
+  }, []);
 
   function downloadfile_func() {
-    const email = typeof localStorage !== 'undefined' ? localStorage.getItem('email') : null;
-    const username = typeof localStorage !== 'undefined' ? localStorage.getItem('username') : null;
-    const access_token = typeof localStorage !== 'undefined' ? localStorage.getItem('access_token') : null;
     const handleDownload = async () => {
       try {
         console.log("Start Downloading...");
@@ -265,6 +282,8 @@ const FormDisabledDemo: React.FC = () => {
   }
 
   const handleChange = (value:any) => {
+    console.log(optionz())
+    console.log(options)
     function getxml (val:any):any {
       interface Post {
         bpmnid: string[];
@@ -277,7 +296,6 @@ const FormDisabledDemo: React.FC = () => {
       axios.post('http://localhost:8000/process/', postData)
         .then((response: AxiosResponse) => {
           const xml = response.data[val];
-          console.log(xml)
           const xmlz = Buffer.from(xml, 'base64').toString('utf-8');
           setBpmnKey(prevKey => prevKey + 1);
           setXml(xmlz)
