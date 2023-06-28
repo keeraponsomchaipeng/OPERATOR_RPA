@@ -11,7 +11,7 @@ import React, { useState } from 'react';
 import styles from './page.module.css';
 import axios, { AxiosResponse } from 'axios';
 import Bpmn from '../process/BpmnViewer';
-import { DownloadOutlined , FileTextOutlined} from '@ant-design/icons';
+import { DownloadOutlined , FileTextOutlined , FolderOpenOutlined} from '@ant-design/icons';
 import Link from 'next/link';
 import { OperationCanceledException } from 'typescript';
 
@@ -252,6 +252,9 @@ const FormDisabledDemo: React.FC = () => {
               <h2 className={styles.marginbox}>
                 Final step : Download file result
               </h2>
+              <div className={styles.stepdivine}>
+                Sharepoint folder<Button icon={<FolderOpenOutlined />} href={`https://cpallgroup.sharepoint.com/:f:/r/sites/MST-WORK-shopat24/Shared%20Documents/Shop_at24/following_send_sms?csf=1&web=1&e=ryRbjO`} /> 
+              </div>
               <div>{downloadfile_func()}</div>
               </div>
               <div className={styles.borderstep}>
